@@ -226,14 +226,15 @@ def recommend_by_text(query, embeddings, texts, paths, categories, top_k=5):
     sims = cosine_similarity([query_emb], embeddings)[0]
     top_idx = sims.argsort()[-top_k:][::-1]
     return [(paths[i], categories[i], texts[i], sims[i]) for i in top_idx]
-
 def load_image_safe(img_path):
+    img_path = Path(img_path)
+    if not img_path.exists():
+        img_path = Path.cwd() / img_path  # try relative to project root
     try:
-        full_path = Path.cwd() / img_path
-        if full_path.exists(): return Image.open(full_path).convert("RGB")
-        elif Path(img_path).exists(): return Image.open(img_path).convert("RGB")
-        else: return Image.new("RGB", (224, 224), color="#F0F0F0")
-    except Exception: return Image.new("RGB", (224, 224), color="#F0F0F0")
+        return Image.open(img_path).convert("RGB")
+    except Exception:
+        return Image.new("RGB", (224, 224), color="gray")
+
 
 # ------------------------------
 # UI RENDERING
