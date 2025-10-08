@@ -40,13 +40,13 @@ def load_models():
 def load_embeddings():
     """Load and cache the precomputed embeddings from pickle files."""
     try:
-        with open('archive (4)/data/fashion_embeddings2.pkl', 'rb') as f:
+        with open('fashion_embeddings2.pkl', 'rb') as f:
             image_data = pickle.load(f)
-        with open("archive (4)/data/fashion_embeddings_text.pkl", "rb") as f:
+        with open("fashion_embeddings_text.pkl", "rb") as f:
             text_data = pickle.load(f)
         return image_data, text_data
     except FileNotFoundError:
-        st.error("Embedding files not found. Please ensure the 'archive (4)/data/' directory and its contents are correctly placed in your project folder.")
+        st.error("Embedding files not found.")
         return None, None
 
 # Load the resources
